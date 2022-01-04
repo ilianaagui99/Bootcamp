@@ -1,0 +1,39 @@
+<div>
+    <span><a href="/">Logout</a></s></span> @*change link to logout*@
+    <title>Dashboard</title>
+    <h1>Upcoming Events</h1>
+    <div>
+         <ul> 
+                <table>
+                    <thead>
+                        <th>Event</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Address</th>
+                    </thead>
+                    <tbody>
+                    @if (ViewBag.AllReservations != null)
+                    {
+                        @foreach (var reserve in ViewBag.AllReservations)
+                        {
+                            <tr>
+                                <td> <a href="SingleReservation/@reserve.ReservationId">@reserve.EventType</a> </td> @*wedders*@
+                                <td>@reserve.date.ToString("MMM d, yyyy")</td>  
+                                <td>@reserve.Description</td> 
+                                <td>@reserve.address</td> 
+                            </tr>
+                        }
+                    }
+                    
+                    </tbody>
+                </table>
+            </ul>
+        </div>
+    
+  
+    <span><a href="/ReservationAdd">New Reservation</a></s></span> 
+    <span><a href="/photo/add">New Photos</a></s></span> 
+    <span><a href="/photos">Gallery</a></s></span> 
+    <span><a href="/likedphotos">Liked Pictures</a></s></span> 
+    <span><a href="/index2">Test</a></s></span> 
+</div>

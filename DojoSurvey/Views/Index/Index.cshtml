@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Display</title>
+</head>
+<body>
+    <div>
+        <h2>Dojo Survey</h2>
+        <form action="result" method="post">
+            <label for="name">Your Name:</label>
+            <input type="text" name="NameField"required/>
+
+            <label for="location">Dojo Location:</label>
+            <select name="Location">
+                <option value="Dallas">Dallas</option>
+                <option value="San Francisco">San Francisco</option>
+                <option value="Houston">Houston</option>
+
+            </select>
+
+            <label for="language">Favorite Language:</label>
+            <select name="Language">
+                <option value="C#">C#</option>
+                <option value="JavaScript">JavaScript</option>
+                <option value="Java">Java</option>
+                <option value="Python">Python</option>
+            </select>
+            <br>
+
+            <label for="comment">Comment (optional):</label>
+            <textarea name="Comment" rows="10" cols="50"></textarea>
+            <input type="submit" value="Submit">
+
+        </form>
+
+    </div>
+    
+</body>
+</html>

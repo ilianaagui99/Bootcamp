@@ -1,0 +1,12 @@
+@model Picture
+
+<form class="asp_form" asp-action="AddPhoto" asp-controller="Home" method="POST" enctype="multipart/form-data">
+
+    <span asp-validation-for="Name"></span>
+    <label asp-for="Name"></label>
+    <input class="form-control" asp-for="Name"/>
+
+    <input asp-for="Image"/>
+
+    <button type="submit" class="btn-info mt-2">Add Picture</button>
+</form>

@@ -1,0 +1,10 @@
+.container{
+    display: flex;
+    justify-content: space-around; 
+}
+
+#home-pic{
+    width: 50%;
+    height:50%;
+}
+

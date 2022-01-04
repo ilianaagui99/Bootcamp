@@ -1,0 +1,108 @@
+1. Create project
+    dotnet new mvc --no-https -o Project
+
+2. Add packages
+    dotnet add Project package Pomelo.EntityFrameworkCore.MySql --version 3.1.1
+    dotnet add Project package Microsoft.EntityFrameworkCore.Design --version 3.1.5
+
+3. Edit Models folder 
+    -Model for data (ERM)
+        dont forget key
+            [Key]
+            public int DishId { get; set; }
+    -Context:
+        using Microsoft.EntityFrameworkCore;
+        namespace Project
+.Models
+        { 
+            // the MyContext class representing a session with our MySQL 
+            // database allowing us to query for or save data
+            public class MyContext : DbContext 
+            { 
+                public MyContext(DbContextOptions options) : base(options) { }
+                // the "Monsters" table name will come from the DbSet variable name
+                public DbSet<User> Users { get; set; }
+            }
+        }
+4. Edit appsettings.json file
+    {
+  "Logging": {
+        "LogLevel": {
+        "Default": "Information",
+        "Microsoft": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information"
+        }
+    },
+    "AllowedHosts": "*",
+        "DBInfo":
+        {
+            "Name": "MySQLconnect",
+            "ConnectionString": "server=localhost;userid=root;password=tamu2021;port=3306;database=dishes_db;SslMode=None"
+        }
+    }
+
+    5. Edit Startup.cs 
+        using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using ChefsDishesClassBuild.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using  Microsoft.AspNetCore.Server.Kestrel.Core;
+
+namespace ChefsDishesClassBuild
+{
+    public class Startup
+    {
+
+        public Startup (IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddSession();
+            services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddDbContext<Context>(options => options.UseMySql (Configuration["DBInfo:ConnectionString"]));
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.Limits.MaxRequestBodySize = 6291456; // if don't set default value is: 30 MB
+            });
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseRouting();
+            app.UseSession(); // must be before UseMvc()
+            app.UseMvc();
+            app.UseStaticFiles();
+        }
+    }
+}
+
+
+6. Edit home controller
+    private MyContext _context;
+     
+        // here we can "inject" our context service into the constructor
+        public HomeController(MyContext context)
+        {
+            _context = context;
+        }
+
+7. Do migrations
+    dotnet ef migrations add FirstMigration
+	dotnet ef database update
+
